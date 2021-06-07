@@ -17,7 +17,7 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
     && apk add --no-cache --virtual .build-deps wget git tar \
     && apk add --no-cache gdb binutils libc6-compat \
     # 下列工具安装-学习过程可能会涉及
-    && apk add --no-cache strace htop htop-doc procps sysstat mandoc man-pages \
+    && apk add --no-cache vim strace htop htop-doc procps sysstat mandoc man-pages \
     # 3. 下载 golang 1.14.12 && 解压
     && wget -O /tmp/go.tar.gz https://dl.google.com/go/go1.14.12.linux-amd64.tar.gz \
     && tar -C /usr/local -zxvf /tmp/go.tar.gz \
