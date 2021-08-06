@@ -77,6 +77,8 @@ RUN OPENRESTY_VERSION="1.19.3.2" \
     && ln -sf $NGINX_LOGS_PATH $WORK_DIR/logs \
     && ln -sf $NGINX_CONF_PATH $WORK_DIR/conf \
     && ln -sf $HTDOCS_PATH $WORK_DIR/htdocs \
+    && ln -sf /dev/stdout $NGINX_LOGS_PATH/access.log \
+    && ln -sf /dev/stderr $NGINX_LOGS_PATH/error.log \
     # 删除预安装的文件
     && apk del .build-deps \
     && rm -rf $SOURCE_CODE_PATH \
@@ -90,5 +92,5 @@ WORKDIR $WORK_DIR
 
 STOPSIGNAL SIGTERM
 
-# 缺省执行命令
+# 执行命令
 CMD ["nginx", "-g", "daemon off;"]
