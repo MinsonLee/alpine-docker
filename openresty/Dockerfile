@@ -74,6 +74,7 @@ RUN OPENRESTY_VERSION="1.19.3.2" \
             | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
     )" \
     # 软连信息
+    && chmod -R 0777 $WORK_DIR/logs
     && ln -sf $NGINX_LOGS_PATH $WORK_DIR/logs \
     && ln -sf $NGINX_CONF_PATH $WORK_DIR/conf \
     && ln -sf $HTDOCS_PATH $WORK_DIR/htdocs \
