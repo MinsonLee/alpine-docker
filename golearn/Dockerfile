@@ -13,13 +13,15 @@ env PATH $GOROOT/bin:$GOPATH/bin:$PATH
 # 构建镜像
 # 1. 修改 alpine 镜像源为阿里云镜像源
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories \
+    # 定义安裝信息
+    && GO_VERSION="1.17.7" \
     # 2. 安装基础软件和依赖
     && apk add --no-cache --virtual .build-deps wget git tar \
     && apk add --no-cache gdb binutils libc6-compat \
     # 下列工具安装-学习过程可能会涉及
     && apk add --no-cache vim strace htop htop-doc procps sysstat mandoc man-pages \
     # 3. 下载 golang 1.14.12 && 解压
-    && wget -O /tmp/go.tar.gz https://dl.google.com/go/go1.14.12.linux-amd64.tar.gz \
+    && wget -O /tmp/go.tar.gz "https://go.dev/dl/go$GO_VERSION.linux-amd64.tar.gz" \
     && tar -C /usr/local -zxvf /tmp/go.tar.gz \
     # 4. 安装 dlv
     && echo "140.82.112.4 github.com" >> /etc/hosts \
