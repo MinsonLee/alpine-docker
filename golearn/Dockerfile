@@ -14,10 +14,11 @@ env PATH $GOROOT/bin:$GOPATH/bin:$PATH
 # 1. 修改 alpine 镜像源为阿里云镜像源
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories \
     # 定义安裝信息
-    && GO_VERSION="1.17.7" \
-    # 2. 安装基础软件和依赖
+    && GO_VERSION="1.18" \
+    # 2. 安装基础软件和依赖 
+	# build-base 会安装一些基础依赖，但也会让安装出来的镜像略大
     && apk add --no-cache --virtual .build-deps wget git tar \
-    && apk add --no-cache gdb binutils libc6-compat \
+    && apk add --no-cache gcc musl-dev gdb binutils libc6-compat \
     # 下列工具安装-学习过程可能会涉及
     && apk add --no-cache vim strace htop htop-doc procps sysstat mandoc man-pages \
     # 3. 下载 golang 1.14.12 && 解压
