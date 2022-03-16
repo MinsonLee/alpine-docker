@@ -22,16 +22,13 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
     # 下列工具安装-学习过程可能会涉及
     && apk add --no-cache vim strace htop htop-doc procps sysstat mandoc man-pages \
     # 3. 下载 golang 1.14.12 && 解压
-    && wget -O /tmp/go.tar.gz "https://go.dev/dl/go$GO_VERSION.linux-amd64.tar.gz" \
-    && tar -C /usr/local -zxvf /tmp/go.tar.gz \
-    # 4. 安装 dlv
-    && echo "140.82.112.4 github.com" >> /etc/hosts \
-    && echo "185.199.108.154 github.githubassets.com" >> /etc/hosts \
-    && echo "199.232.69.194 github.global.ssl.fastly.net" >> /etc/hosts \
-    && git clone https://github.com/go-delve/delve /tmp/delve \
-    && cd /tmp/delve/cmd/dlv \
+    && wget -q -O /tmp/go.tar.gz "https://go.dev/dl/go$GO_VERSION.linux-amd64.tar.gz" \
+    && tar -C /usr/local -zxf /tmp/go.tar.gz \
+    # 4. 安装 dlv 调试工具
+    && wget -q -O /tmp/delve.zip "https://hub.gitcdn.top/https://github.com/go-delve/delve/archive/refs/heads/master.zip" \
+    && cd /tmp && unzip -d /tmp /tmp/delve.zip && cd /tmp/delve*/cmd/dlv \
     && go build && go install \
-    # 4. 清理无用安装文件和缓存文件
+    # 7. 清理无用安装文件和缓存文件
     && rm -rf /tmp/* \
     && rm -rf $GOPATH/pkg/* \
     && rm -rf /var/cache/apk/* \
@@ -39,7 +36,7 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
     && apk del .build-deps
 
 # 复制文件
-COPY hosts entrypoint.sh /
+COPY entrypoint.sh /
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 
